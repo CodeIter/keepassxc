@@ -104,9 +104,10 @@ int main(int argc, char** argv)
         return EXIT_SUCCESS;
     }
 
+    const QStringList fileNames = parser.positionalArguments();
+
     // Process single instance and early exit if already running
     // FIXME: this is a *mess* and it is entirely my fault. --wundrweapon
-    const QStringList fileNames = parser.positionalArguments();
     if (app.isAlreadyRunning()) {
         if (parser.isSet(lockOption)) {
             if (app.sendLockToInstance()) {
