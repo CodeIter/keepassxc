@@ -104,11 +104,6 @@ int main(int argc, char** argv)
         return EXIT_SUCCESS;
     }
 
-    // Process config file options early
-    if (parser.isSet(configOption) || parser.isSet(localConfigOption)) {
-        Config::createConfigFromFile(parser.value(configOption), parser.value(localConfigOption));
-    }
-
     // Process single instance and early exit if already running
     // FIXME: this is a *mess* and it is entirely my fault. --wundrweapon
     const QStringList fileNames = parser.positionalArguments();
@@ -128,6 +123,11 @@ int main(int argc, char** argv)
             qWarning() << QObject::tr("Another instance of KeePassXC is already running.").toUtf8().constData();
         }
         return EXIT_SUCCESS;
+    }
+
+    // Process config file options early
+    if (parser.isSet(configOption) || parser.isSet(localConfigOption)) {
+        Config::createConfigFromFile(parser.value(configOption), parser.value(localConfigOption));
     }
 
     if (!Crypto::init()) {
